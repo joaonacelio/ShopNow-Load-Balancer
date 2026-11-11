@@ -1,0 +1,44 @@
+
+services:
+  servidor1:
+    build:
+      context: ..
+      dockerfile: load_balancer/Dockerfile
+    container_name: shopnow-servidor1
+    environment:
+      SERVER_ID: "Servidor 1"
+    ports:
+      - "5001:5000"
+
+  servidor2:
+    build:
+      context: ..
+      dockerfile: load_balancer/Dockerfile
+    container_name: shopnow-servidor2
+    environment:
+      SERVER_ID: "Servidor 2"
+    ports:
+      - "5002:5000"
+
+  servidor3:
+    build:
+      context: ..
+      dockerfile: load_balancer/Dockerfile
+    container_name: shopnow-servidor3
+    environment:
+      SERVER_ID: "Servidor 3"
+    ports:
+      - "5003:5000"
+
+  balanceador:
+    build:
+      context: ..
+      dockerfile: load_balancer/Dockerfile.lb
+    container_name: shopnow-balanceador
+    ports:
+      - "8080:8080"
+    depends_on:
+      - servidor1
+      - servidor2
+      - servidor3
+
